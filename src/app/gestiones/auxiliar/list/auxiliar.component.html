@@ -1,1 +1,67 @@
-<p>auxiliar works!</p>
+<div>
+  <h1 class="text-blue-400 leading-6 text-3xl">Auxiliares</h1>
+  <div class="inline-flex justify-end w-full mb-2">
+    <button nz-button nzType="primary" nzGhost="true" routerLink="add">
+      Nuevo Auxiliar
+    </button>
+  </div>
+
+  <nz-table
+    #basicTable
+    [nzData]="auxiliares"
+    [nzLoading]="isLoading"
+    nzPageSize="15"
+  >
+    <thead>
+      <tr>
+        <th>Identificador</th>
+        <th>Nombre</th>
+        <th>Estado</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of auxiliares">
+        <td>{{ data.id }}</td>
+        <td>{{ data.name }}</td>
+        <td
+          [ngClass]="{
+            'text-green-400': data.status,
+            'text-red-400': !data.status
+          }"
+        >
+          {{ data.status ? "Activo" : "Inactivo" }}
+        </td>
+
+        <td>
+          <button
+            nz-button
+            class="mr-2 border-yellow-400 hover:border-yellow-600 inline-flex justify-items-center justify-center"
+            nzTooltipTitle="Editar"
+            nzTooltipPlacement="bottomRight"
+            nz-tooltip
+            nzTooltipColor="yellow"
+            [routerLink]="['edit', data.id]"
+          >
+            <i nz-icon nzType="edit" class="text-yellow-400"></i>
+          </button>
+          <button
+            nz-button
+            nzDanger
+            nzTooltipTitle="Eliminar"
+            nzTooltipPlacement="bottomRight"
+            nz-tooltip
+            nzTooltipColor="red"
+            class="inline-flex justify-items-center justify-center"
+            nz-popconfirm
+            nzPopconfirmTitle="Estas seguro de que quieres eliminar este registro?"
+            (nzOnConfirm)="confirmDelete(data.id)"
+            nzPopconfirmPlacement="topRight"
+          >
+            <i nz-icon nzType="delete"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

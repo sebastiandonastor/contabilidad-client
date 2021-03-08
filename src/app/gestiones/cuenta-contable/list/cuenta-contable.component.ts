@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './cuenta-contable.component.html',
 })
 export class CuentaContableComponent implements OnInit {
+  cuentasContables: any[];
+  isLoading = false;
   constructor() {}
 
   ngOnInit(): void {}

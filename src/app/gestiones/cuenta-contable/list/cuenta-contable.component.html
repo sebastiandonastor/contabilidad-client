@@ -1,1 +1,77 @@
-<p>cuenta-contable works!</p>
+<div>
+  <h1 class="text-blue-400 leading-6 text-3xl">Cuentas Contables</h1>
+  <div class="inline-flex justify-end w-full mb-2">
+    <button nz-button nzType="primary" nzGhost="true" routerLink="add">
+      Nueva Cuenta Contables
+    </button>
+  </div>
+
+  <nz-table
+    #basicTable
+    [nzData]="cuentasContables"
+    [nzLoading]="isLoading"
+    nzPageSize="15"
+  >
+    <thead>
+      <tr>
+        <th>Identificador</th>
+        <th>Descripcion</th>
+        <th>Tipo de Cuenta</th>
+        <th>Permite Transacciones</th>
+        <th>Nivel</th>
+        <th>Cuenta Mayor</th>
+        <th>Balance</th>
+        <th>Estado</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of cuentasContables">
+        <td>{{ data.id }}</td>
+        <td>{{ data.id }}</td>
+        <td>{{ data.id }}</td>
+        <td>{{ data.id }}</td>
+        <td>{{ data.description }}</td>
+        <td>{{ data.id }}</td>
+        <td>{{ data.origin }}</td>
+        <td
+          [ngClass]="{
+            'text-green-400': data.status,
+            'text-red-400': !data.status
+          }"
+        >
+          {{ data.status ? "Activo" : "Inactivo" }}
+        </td>
+
+        <td>
+          <button
+            nz-button
+            class="mr-2 border-yellow-400 hover:border-yellow-600 inline-flex justify-items-center justify-center"
+            nzTooltipTitle="Editar"
+            nzTooltipPlacement="bottomRight"
+            nz-tooltip
+            nzTooltipColor="yellow"
+            [routerLink]="['edit', data.id]"
+          >
+            <i nz-icon nzType="edit" class="text-yellow-400"></i>
+          </button>
+          <button
+            nz-button
+            nzDanger
+            nzTooltipTitle="Eliminar"
+            nzTooltipPlacement="bottomRight"
+            nz-tooltip
+            nzTooltipColor="red"
+            class="inline-flex justify-items-center justify-center"
+            nz-popconfirm
+            nzPopconfirmTitle="Estas seguro de que quieres eliminar este registro?"
+            (nzOnConfirm)="confirmDelete(data.id)"
+            nzPopconfirmPlacement="topRight"
+          >
+            <i nz-icon nzType="delete"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

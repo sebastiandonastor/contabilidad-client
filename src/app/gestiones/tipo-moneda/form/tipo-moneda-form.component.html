@@ -1,0 +1,87 @@
+<div>
+  <div class="h-6">
+    <h1 class="text-blue-400 leading-6 text-3xl">
+      {{
+        !isEdit && !descriptionControl.value ? title : descriptionControl.value
+      }}
+    </h1>
+  </div>
+  <div class="inline-flex justify-end w-full mb-2">
+    <button
+      nz-button
+      nzType="primary"
+      nzGhost="true"
+      class="mr-2"
+      nzTooltipTitle="Guardar"
+      nzTooltipPlacement="bottom"
+      nz-tooltip
+      nzTooltipColor="blue"
+      (click)="onSave()"
+    >
+      <i
+        nz-icon
+        nzType="save"
+        nzTheme="outline"
+        class="inline-flex justify-items-center justify-center"
+      ></i>
+    </button>
+    <button
+      nz-button
+      routerLink="/gestiones/tipo-moneda"
+      class="border-black hover:border-gray-500"
+      nzTooltipTitle="Ir Atras"
+      nzTooltipPlacement="bottom"
+      nz-tooltip
+      nzTooltipColor="black"
+    >
+      <i
+        nz-icon
+        nzType="backward"
+        nzTheme="outline"
+        class="inline-flex justify-items-center justify-center text-black"
+      ></i>
+    </button>
+  </div>
+
+  <div class="w-1/2">
+    <form nz-form [formGroup]="tipoMonedaForm">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="descripcion" [nzSpan]="5"
+          >Descripcion</nz-form-label
+        >
+        <nz-form-control nzHasFeedback [nzErrorTip]="descripcionError">
+          <input nz-input id="descripcion" formControlName="description" />
+          <ng-template #descripcionError let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              Por favor ingrese una descripcion!
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="5" nzFor="ultimaTasa"
+          >Ultima Tasa</nz-form-label
+        >
+        <nz-form-control nzHasFeedback [nzErrorTip]="identificacionError">
+          <nz-input-number
+            id="ultimaTasa"
+            formControlName="lastExchangeRate"
+            style="width: 100%"
+          ></nz-input-number>
+
+          <ng-template #identificacionError let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              Por favor ingrese una ultima tasa cambiaria numerica!
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5">Estado</nz-form-label>
+        <nz-form-control>
+          <nz-switch formControlName="status"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
