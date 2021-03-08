@@ -59,7 +59,7 @@ export class TipoCuentaFormComponent implements OnInit {
         this.message.success(
           `Tipo Cuenta ${result.description} ${
             this.isEdit ? 'Actualizada' : 'Creada'
-          } satisfactoriamente`
+          } satisfactoriamente `
         );
 
         this.id = result.id;
