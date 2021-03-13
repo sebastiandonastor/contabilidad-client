@@ -26,11 +26,11 @@
         <td>{{ data.name }}</td>
         <td
           [ngClass]="{
-            'text-green-400': data.status,
-            'text-red-400': !data.status
+            'text-green-400': data.state,
+            'text-red-400': !data.state
           }"
         >
-          {{ data.status ? "Activo" : "Inactivo" }}
+          {{ data.state ? "Activo" : "Inactivo" }}
         </td>
 
         <td>

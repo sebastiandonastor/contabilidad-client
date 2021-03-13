@@ -1,0 +1,155 @@
+<div>
+  <div class="h-6">
+    <h1 class="text-blue-400 leading-6 text-3xl">
+      {{
+        !isEdit && !descriptionControl.value ? title : descriptionControl.value
+      }}
+    </h1>
+  </div>
+  <div class="inline-flex justify-end w-full mb-2">
+    <button
+      nz-button
+      nzType="primary"
+      nzGhost="true"
+      class="mr-2"
+      nzTooltipTitle="Guardar"
+      nzTooltipPlacement="bottom"
+      nz-tooltip
+      nzTooltipColor="blue"
+      (click)="onSave()"
+    >
+      <i
+        nz-icon
+        nzType="save"
+        nzTheme="outline"
+        class="inline-flex justify-items-center justify-center"
+      ></i>
+    </button>
+    <button
+      nz-button
+      routerLink="/gestiones/cuenta-contable"
+      class="border-black hover:border-gray-500"
+      nzTooltipTitle="Ir Atras"
+      nzTooltipPlacement="bottom"
+      nz-tooltip
+      nzTooltipColor="black"
+    >
+      <i
+        nz-icon
+        nzType="backward"
+        nzTheme="outline"
+        class="inline-flex justify-items-center justify-center text-black"
+      ></i>
+    </button>
+  </div>
+
+  <form nz-form [formGroup]="cuentaContableForm">
+    <div class="grid grid-cols-2 grid-rows-1">
+      <div class="w-full">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="descripcion" [nzSpan]="5"
+            >Descripcion</nz-form-label
+          >
+          <nz-form-control nzHasFeedback [nzErrorTip]="descripcionError">
+            <input nz-input id="descripcion" formControlName="description" />
+            <ng-template #descripcionError let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Por favor ingrese una descripcion!
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired [nzSpan]="5" nzFor="nivel"
+            >Nivel</nz-form-label
+          >
+          <nz-form-control nzHasFeedback [nzErrorTip]="nivelError">
+            <nz-input-number
+              id="nivel"
+              formControlName="level"
+              style="width: 100%"
+            ></nz-input-number>
+
+            <ng-template #nivelError let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Por favor ingrese un nivel!
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired [nzSpan]="5" nzFor="balance"
+            >Balance</nz-form-label
+          >
+          <nz-form-control nzHasFeedback [nzErrorTip]="balanceError">
+            <nz-input-number
+              id="balance"
+              formControlName="balance"
+              style="width: 100%"
+            ></nz-input-number>
+
+            <ng-template #balanceError let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Por favor ingrese un balance!
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="5">Estado</nz-form-label>
+          <nz-form-control>
+            <nz-switch formControlName="status"></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="w-full">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="cuentaMayor" [nzSpan]="5"
+            >Cuenta Mayor</nz-form-label
+          >
+          <nz-form-control nzHasFeedback [nzErrorTip]="majorAccountError">
+            <input nz-input id="cuentaMayor" formControlName="majorAccount" />
+            <ng-template #majorAccountError let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Por favor ingrese una cuenta mayor!
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="tipoCuenta" [nzSpan]="5"
+            >Tipo Cuenta</nz-form-label
+          >
+          <nz-form-control nzHasFeedback [nzErrorTip]="tipoCuentaError">
+            <nz-select formControlName="idAccountType">
+              <nz-option
+                *ngFor="let tipocuenta of tiposCuentas$ | async"
+                [nzValue]="tipocuenta.id"
+                [nzLabel]="tipocuenta.description"
+              ></nz-option>
+            </nz-select>
+            <ng-template #tipoCuentaError let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Por favor ingrese un tipo de cuenta!
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="5">Transaciones</nz-form-label>
+          <nz-form-control>
+            <nz-switch formControlName="transactionsEnabled"></nz-switch>
+            <span class="ml-2">{{
+              transaccionControl.value ? "Habilitadas" : "Deshabiltiadas"
+            }}</span>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</div>

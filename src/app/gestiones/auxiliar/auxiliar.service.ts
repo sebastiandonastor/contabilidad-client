@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 export interface IAuxiliar {
   id: number;
   name: string;
-  status: boolean;
+  state: boolean;
 }
 
 @Injectable({ providedIn: 'root' })

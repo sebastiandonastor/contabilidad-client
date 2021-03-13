@@ -28,12 +28,12 @@
     <tbody>
       <tr *ngFor="let data of cuentasContables">
         <td>{{ data.id }}</td>
-        <td>{{ data.id }}</td>
-        <td>{{ data.id }}</td>
-        <td>{{ data.id }}</td>
         <td>{{ data.description }}</td>
-        <td>{{ data.id }}</td>
-        <td>{{ data.origin }}</td>
+        <td>{{ data.accountType?.description }}</td>
+        <td>{{ data.transactionsEnabled ? "Si" : "No" }}</td>
+        <td>{{ data.level }}</td>
+        <td>{{ data.majorAccount }}</td>
+        <td>{{ data.balance | currency }}</td>
         <td
           [ngClass]="{
             'text-green-400': data.status,

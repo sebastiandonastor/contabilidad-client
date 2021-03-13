@@ -24,7 +24,7 @@ export class AuxiliarFormComponent implements OnInit {
   ) {
     this.auxiliarForm = this.fb.group({
       name: [null, [Validators.required]],
-      status: [true],
+      state: [true],
     });
   }
 
@@ -54,7 +54,6 @@ export class AuxiliarFormComponent implements OnInit {
         auxiliarResult$ = this.auxiliarService.post(auxiliar);
       }
       auxiliarResult$.pipe(take(1)).subscribe((result) => {
-        console.log(result);
         this.message.success(
           `Tipo Cuenta ${result.name} ${
             this.isEdit ? 'Actualizada' : 'Creada'
