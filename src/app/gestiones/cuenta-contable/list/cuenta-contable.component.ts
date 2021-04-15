@@ -8,7 +8,8 @@ import { CuentaContableService } from '../cuentas-contable.service';
   templateUrl: './cuenta-contable.component.html',
 })
 export class CuentaContableComponent implements OnInit {
-  cuentasContables: any[];
+  cuentasContablesState: any[] = [];
+  dataCuentas: any[] = [];
   isLoading = false;
   constructor(
     private service: CuentaContableService,
@@ -26,7 +27,9 @@ export class CuentaContableComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         (data) => {
-          this.cuentasContables = data;
+          this.cuentasContablesState = data;
+          this.dataCuentas = this.cuentasContablesState.slice(0, 7);
+
           this.isLoading = false;
         },
         (error) => {
@@ -37,10 +40,18 @@ export class CuentaContableComponent implements OnInit {
 
   confirmDelete(id) {
     this.service.delete(id).subscribe((result) => {
-      this.cuentasContables = this.cuentasContables.filter(
+      this.cuentasContablesState = this.cuentasContablesState.filter(
         (data) => data.id !== id
       );
+
       this.message.success(`Cuenta Contable borrado satisfactoriamente`);
     });
+  }
+  onPageIndexChange(number) {
+    const currentPosition = (number - 1) * 7;
+    this.dataCuentas = this.cuentasContablesState.slice(
+      currentPosition,
+      currentPosition + 7
+    );
   }
 }

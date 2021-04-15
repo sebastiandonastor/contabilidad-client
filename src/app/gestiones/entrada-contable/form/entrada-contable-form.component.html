@@ -1,4 +1,4 @@
-<div>
+<div class="clear-left">
   <div class="h-6">
     <h1 class="text-blue-400 leading-6 text-3xl">
       {{
@@ -95,47 +95,23 @@
             </ng-template>
           </nz-form-control>
         </nz-form-item>
-
         <nz-form-item>
-          <nz-form-label [nzSpan]="5">Estado</nz-form-label>
-          <nz-form-control>
-            <nz-switch formControlName="status"></nz-switch>
+          <nz-form-label nzRequired nzFor="status" [nzSpan]="5"
+            >Status</nz-form-label
+          >
+          <nz-form-control nzHasFeedback [nzErrorTip]="statusError">
+            <nz-select formControlName="status">
+              <nz-option [nzValue]="1" [nzLabel]="'R'"></nz-option>
+            </nz-select>
+            <ng-template #statusError let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Por favor ingrese un Estado!
+              </ng-container>
+            </ng-template>
           </nz-form-control>
         </nz-form-item>
       </div>
       <div class="w-full">
-        <nz-form-item>
-          <nz-form-label nzRequired [nzSpan]="5" nzFor="nivel"
-            >Asiento</nz-form-label
-          >
-          <nz-form-control nzHasFeedback [nzErrorTip]="nivelError">
-            <nz-input-number
-              id="nivel"
-              formControlName="seatAmount"
-              style="width: 100%"
-            ></nz-input-number>
-
-            <ng-template #nivelError let-control>
-              <ng-container *ngIf="control.hasError('required')">
-                Por favor ingrese un Asiento!
-              </ng-container>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label nzRequired nzFor="cuentaMayor" [nzSpan]="5"
-            >Cuenta</nz-form-label
-          >
-          <nz-form-control nzHasFeedback [nzErrorTip]="majorAccountError">
-            <input nz-input id="cuentaMayor" formControlName="account" />
-            <ng-template #majorAccountError let-control>
-              <ng-container *ngIf="control.hasError('required')">
-                Por favor ingrese una cuenta!
-              </ng-container>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
-
         <nz-form-item>
           <nz-form-label [nzSpan]="5">Dia Entrada</nz-form-label>
           <nz-form-control>
@@ -149,5 +125,10 @@
         </nz-form-item>
       </div>
     </div>
+
+    <app-cuentas
+      [listOfData]="cuentas"
+      (deleteRowCuenta)="onDeleteRow($event)"
+    ></app-cuentas>
   </form>
 </div>

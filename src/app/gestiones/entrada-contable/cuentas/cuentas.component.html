@@ -1,0 +1,92 @@
+<div>
+  <button nz-button (click)="addRow()" nzType="primary">Agregar Cuenta</button>
+  <br />
+  <br />
+  <nz-table
+    #editRowTable
+    nzBordered
+    [nzData]="listOfData"
+    [nzFrontPagination]="false"
+  >
+    <thead>
+      <tr>
+        <th nzWidth="30%">Cuenta</th>
+        <th>Monto Credito</th>
+        <th>Monto Debito</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of editRowTable.data" class="editable-row">
+        <td>
+          <nz-form-item (keydown.escape)="stopEdit()" class="my-auto">
+            <nz-form-control [nzErrorTip]="auxilairError">
+              <nz-select [(ngModel)]="data.idAccountingAccount">
+                <nz-option
+                  *ngFor="let entrada of cuentaContables$ | async"
+                  [nzValue]="entrada.id"
+                  [nzLabel]="entrada.description"
+                ></nz-option>
+              </nz-select>
+              <ng-template #auxilairError let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  Por favor ingrese un auxiliar!
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </td>
+        <td>
+          <div
+            class="editable-cell"
+            [hidden]="editId === data.index"
+            (click)="startEdit(data.index)"
+            [disabled]="data.debitAmount > 0"
+          >
+            {{ data.creditAmount | currency }}
+          </div>
+          <nz-form-control [hidden]="editId !== data.index">
+            <nz-input-number
+              [disabled]="data.debitAmount > 0 && data.lastEdit == 1"
+              id="ultimaTasa"
+              [(ngModel)]="data.creditAmount"
+              (ngModelChange)="updateAmount($event, data, 2)"
+              (blur)="stopEdit()"
+              (keydown.escape)="stopEdit()"
+              style="width: 100%"
+            ></nz-input-number>
+          </nz-form-control>
+        </td>
+        <td>
+          <div
+            class="editable-cell"
+            [hidden]="editId === data.index"
+            (click)="startEdit(data.index)"
+            (keydown.escape)="stopEdit()"
+          >
+            {{ data.debitAmount | currency }}
+          </div>
+          <nz-form-control [hidden]="editId !== data.index">
+            <nz-input-number
+              [disabled]="data.creditAmount > 0 && data.lastEdit == 2"
+              id="ultimaTasa"
+              [(ngModel)]="data.debitAmount"
+              (ngModelChange)="updateAmount($event, data, 1)"
+              (blur)="stopEdit()"
+              (keydown.escape)="stopEdit()"
+              style="width: 100%"
+            ></nz-input-number>
+          </nz-form-control>
+        </td>
+        <td>
+          <a
+            nz-popconfirm
+            nzPopconfirmTitle="Estas Seguro?"
+            (nzOnConfirm)="deleteRow(data.index)"
+            >Borrar</a
+          >
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

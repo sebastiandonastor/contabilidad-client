@@ -8,9 +8,9 @@
 
   <nz-table
     #basicTable
-    [nzData]="cuentasContables"
+    [nzData]="dataCuentas"
     [nzLoading]="isLoading"
-    nzPageSize="15"
+    [nzFrontPagination]="false"
   >
     <thead>
       <tr>
@@ -26,7 +26,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of cuentasContables">
+      <tr *ngFor="let data of dataCuentas">
         <td>{{ data.id }}</td>
         <td>{{ data.description }}</td>
         <td>{{ data.accountType?.description }}</td>
@@ -74,4 +74,11 @@
       </tr>
     </tbody>
   </nz-table>
+  <nz-pagination
+    [nzPageIndex]="1"
+    [nzTotal]="cuentasContablesState.length"
+    [nzPageSize]="7"
+    (nzPageIndexChange)="onPageIndexChange($event)"
+    class="pb-4 text-right"
+  ></nz-pagination>
 </div>

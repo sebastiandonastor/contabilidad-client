@@ -11,6 +11,7 @@ export interface IEntradaContable {
   entryDate: Date;
   seatAmount: number;
   status: boolean;
+  accounts: any[];
 }
 
 @Injectable({ providedIn: 'root' })

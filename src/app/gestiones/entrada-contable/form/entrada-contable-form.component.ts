@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -14,9 +14,10 @@ import {
   selector: 'app-entrada-contable-form',
   templateUrl: './entrada-contable-form.component.html',
 })
-export class EntradaContableFormComponent implements OnInit {
+export class EntradaContableFormComponent implements OnInit, AfterViewInit {
   title = 'Nueva Entrada Contable';
   dateFormat = 'yyyy/MM/dd';
+  cuentas: any[] = [];
   entradaContableForm: FormGroup;
   isEdit = false;
   id = 0;
@@ -32,14 +33,17 @@ export class EntradaContableFormComponent implements OnInit {
     this.entradaContableForm = this.fb.group({
       description: [null, [Validators.required]],
       entryDate: [null, Validators.required],
-      seatAmount: [null, [Validators.required]],
       idAuxiliarSystem: [null, Validators.required],
-      account: [null, Validators.required],
       movementType: [null, Validators.required],
-      status: [true],
+      status: [1],
     });
 
     this.auxiliares$ = this.auxiliarService.get();
+  }
+  ngAfterViewInit(): void {
+    if (!this.isEdit) {
+      this.entradaContableForm.patchValue({ idAuxiliarSystem: 1 });
+    }
   }
 
   ngOnInit(): void {
@@ -47,12 +51,23 @@ export class EntradaContableFormComponent implements OnInit {
       if (data) {
         this.isEdit = true;
         this.id = data.id;
+        data.status = 1;
         this.entradaContableForm.patchValue(data);
+        this.cuentas = data.accounts;
       }
     });
   }
 
+  onDeleteRow(cuentas) {
+    this.cuentas = cuentas;
+  }
+
   onSave() {
+    if (this.cuentas.length == 0) {
+      this.message.error('Por favor agrega una cuenta');
+      return;
+    }
+    console.log(this.entradaContableForm);
     if (this.entradaContableForm.invalid) {
       for (const key in this.entradaContableForm.controls) {
         this.entradaContableForm.controls[key].markAsDirty();
@@ -62,10 +77,20 @@ export class EntradaContableFormComponent implements OnInit {
       const auxiliar = this.entradaContableForm.value as IEntradaContable;
       let auxiliarResult$: Observable<IEntradaContable>;
       if (this.isEdit) {
-        auxiliarResult$ = this.entradaContableService.update(this.id, auxiliar);
+        auxiliarResult$ = this.entradaContableService.update(this.id, {
+          ...auxiliar,
+          accounts: this.cuentas.map((c) => ({
+            idAccountingAccount: c.idAccountingAccount,
+            creditAmount: c.creditAmount,
+            debitAmount: c.debitAmount,
+          })),
+        });
         auxiliar.id = this.id;
       } else {
-        auxiliarResult$ = this.entradaContableService.post(auxiliar);
+        auxiliarResult$ = this.entradaContableService.post({
+          ...auxiliar,
+          accounts: this.cuentas,
+        });
       }
       auxiliarResult$.pipe(take(1)).subscribe((result) => {
         this.message.success(

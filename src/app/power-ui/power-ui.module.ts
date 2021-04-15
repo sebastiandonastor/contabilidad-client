@@ -14,12 +14,14 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { IconsProviderModule } from '../icons-provider.module';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @NgModule({
   declarations: [],
   imports: [CommonModule],
   exports: [
     NzGridModule,
+    NzPaginationModule,
     NzTypographyModule,
     NzTableModule,
     NzButtonModule,
