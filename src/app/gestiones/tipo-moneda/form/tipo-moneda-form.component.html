@@ -75,6 +75,24 @@
             </ng-container>
           </ng-template>
         </nz-form-control>
+
+        <nz-form-control class="ml-4">
+          <nz-select formControlName="sync">
+            <nz-option nzValue="DOP" nzLabel="DOP"></nz-option>
+            <nz-option nzValue="AUD" nzLabel="AUD"></nz-option>
+            <nz-option nzValue="USD" nzLabel="USD"></nz-option>
+            <nz-option nzValue="JPY" nzLabel="JPY"></nz-option>
+            <nz-option nzValue="GBP" nzLabel="GBP"></nz-option>
+          </nz-select>
+        </nz-form-control>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="onSync()"
+          [disabled]="!tipoMonedaForm.get('sync').value"
+        >
+          Sincronizar
+        </button>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Estado</nz-form-label>

@@ -19,6 +19,12 @@ export class TipoMonedaService {
     );
   }
 
+  getMoneda(isoCode) {
+    return this.http.get<any>(
+      `https://publicwebservicesapi.azurewebsites.net/CurrenciesRates/${isoCode}`
+    );
+  }
+
   getById(id: number) {
     return this.http.get<ITipoMoneda>(
       `${environment.contabilidadApi}/currencyType/${id}`

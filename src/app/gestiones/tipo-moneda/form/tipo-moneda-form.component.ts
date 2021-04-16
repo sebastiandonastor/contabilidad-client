@@ -24,6 +24,7 @@ export class TipoMonedaFormComponent implements OnInit {
   ) {
     this.tipoMonedaForm = this.fb.group({
       description: [null, [Validators.required]],
+      sync: [null],
       lastExchangeRate: [null, [Validators.required]],
       status: [true],
     });
@@ -37,6 +38,14 @@ export class TipoMonedaFormComponent implements OnInit {
         this.tipoMonedaForm.patchValue(data);
       }
     });
+  }
+
+  onSync() {
+    this.tipoMonedaService
+      .getMoneda(this.tipoMonedaForm.get('sync').value)
+      .subscribe(({ currencyRateVal }) => {
+        this.tipoMonedaForm.get('lastExchangeRate').setValue(currencyRateVal);
+      });
   }
 
   onSave() {
